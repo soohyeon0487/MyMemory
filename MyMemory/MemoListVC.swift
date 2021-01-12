@@ -11,6 +11,24 @@ class MemoListVC: UITableViewController {
 
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
+    
+    override func viewDidLoad() {
+        if let revealVC = self.revealViewController() {
+            let btn = UIBarButtonItem()
+            btn.image = UIImage(systemName: "line.horizontal.3")
+            btn.target = revealVC
+            btn.action = #selector(revealVC.revealToggle(_:))
+            
+            self.navigationItem.leftBarButtonItem = btn
+            
+            self.view.addGestureRecognizer(revealVC.panGestureRecognizer())
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tableView.reloadData()
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let count = self.appDelegate.memoList.count
         return count
@@ -32,10 +50,6 @@ class MemoListVC: UITableViewController {
         cell.regDate?.text = formatter.string(from: row.regDate!)
         
         return cell
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
