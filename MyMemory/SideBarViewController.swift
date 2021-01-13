@@ -9,6 +9,7 @@ import UIKit
 
 class SideBarViewController: UITableViewController {
     
+    let uInfo = UserInfoManager()
     
     let titles = [
         "새 글 작성하기",
@@ -40,8 +41,6 @@ class SideBarViewController: UITableViewController {
         headerView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 70)
         headerView.backgroundColor = .brown
         
-        let defaultProfile = UIImage(systemName: "person.fill")
-        self.profileImage.image = defaultProfile
         self.profileImage.tintColor = .white
         self.profileImage.frame = CGRect(x: 10, y: 10, width: 50, height: 50)
         self.profileImage.backgroundColor = .black
@@ -51,12 +50,10 @@ class SideBarViewController: UITableViewController {
         self.profileImage.layer.borderColor = UIColor.white.cgColor
         self.profileImage.layer.masksToBounds = true
         
-        self.nameLabel.text = "심심한 수현 씨"
         self.nameLabel.textColor = .white
         self.nameLabel.font = .boldSystemFont(ofSize: 15)
         self.nameLabel.backgroundColor = .clear
         
-        self.emailLabel.text = "soohyeon0487@fake.null"
         self.emailLabel.textColor = .white
         self.emailLabel.font = .systemFont(ofSize: 11)
         self.emailLabel.sizeToFit()
@@ -88,6 +85,12 @@ class SideBarViewController: UITableViewController {
         self.emailLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         self.tableView.tableHeaderView = headerView
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.nameLabel.text = self.uInfo.name ?? "Guset"
+        self.emailLabel.text = self.uInfo.account ?? ""
+        self.profileImage.image = self.uInfo.profile
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
